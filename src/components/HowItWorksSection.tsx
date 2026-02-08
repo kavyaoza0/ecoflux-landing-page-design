@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 
 const steps = [
   {
@@ -24,6 +23,11 @@ const steps = [
   },
 ];
 
+const lineVariants = {
+  hidden: { scaleX: 0 },
+  visible: { scaleX: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
 const HowItWorksSection = () => {
   return (
     <section id="how-it-works" className="section-padding relative">
@@ -46,17 +50,34 @@ const HowItWorksSection = () => {
           {steps.map((step, i) => (
             <motion.div
               key={step.number}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="relative"
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              className="relative group"
             >
-              <div className="text-6xl font-black text-primary/10 mb-4">{step.number}</div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">{step.title}</h3>
+              {/* Step number with hover effect */}
+              <motion.div
+                className="text-6xl font-black text-primary/10 mb-4 transition-colors duration-500 group-hover:text-primary/25"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {step.number}
+              </motion.div>
+              <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {step.title}
+              </h3>
               <p className="text-muted-foreground leading-relaxed text-sm">{step.description}</p>
+
+              {/* Connecting line */}
               {i < steps.length - 1 && (
-                <ArrowRight className="hidden md:block absolute top-8 -right-4 text-primary/20 w-6 h-6" />
+                <motion.div
+                  variants={lineVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="hidden md:block absolute top-10 -right-4 w-8 h-[2px] bg-gradient-to-r from-primary/30 to-primary/5 origin-left"
+                />
               )}
             </motion.div>
           ))}

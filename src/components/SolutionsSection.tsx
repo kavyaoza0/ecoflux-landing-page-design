@@ -24,6 +24,25 @@ const solutions = [
   },
 ];
 
+const cardVariants = {
+  rest: { scale: 1, y: 0 },
+  hover: {
+    scale: 1.03,
+    y: -8,
+    transition: { type: "spring", stiffness: 300, damping: 20 },
+  },
+};
+
+const iconVariants = {
+  rest: { rotate: 0, scale: 1 },
+  hover: { rotate: 5, scale: 1.15, transition: { type: "spring", stiffness: 400 } },
+};
+
+const glowVariants = {
+  rest: { opacity: 0 },
+  hover: { opacity: 1, transition: { duration: 0.4 } },
+};
+
 const SolutionsSection = () => {
   return (
     <section id="solutions" className="section-padding relative">
@@ -52,13 +71,33 @@ const SolutionsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass rounded-2xl p-8 group hover:border-primary/30 transition-all duration-500"
+              variants={cardVariants}
+              whileHover="hover"
+              initial-state="rest"
+              className="glass rounded-2xl p-8 group relative overflow-hidden cursor-pointer"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:glow-soft transition-all duration-500">
-                <item.icon className="w-6 h-6 text-primary" />
+              {/* Hover glow background */}
+              <motion.div
+                variants={glowVariants}
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 pointer-events-none"
+              />
+
+              {/* Animated border on hover */}
+              <motion.div
+                variants={glowVariants}
+                className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none"
+              />
+
+              <div className="relative z-10">
+                <motion.div
+                  variants={iconVariants}
+                  className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:glow-soft transition-shadow duration-500"
+                >
+                  <item.icon className="w-6 h-6 text-primary" />
+                </motion.div>
+                <h3 className="text-xl font-semibold mb-3 text-foreground">{item.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{item.description}</p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-foreground">{item.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
         </div>

@@ -83,6 +83,10 @@ export default {
           "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
           "50%": { transform: "translateY(-30px) rotate(3deg)" },
         },
+        "float-delayed": {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "50%": { transform: "translateY(-15px) rotate(-2deg)" },
+        },
         "pulse-glow": {
           "0%, 100%": { boxShadow: "0 0 20px -5px hsl(165 60% 45% / 0.3)" },
           "50%": { boxShadow: "0 0 40px -5px hsl(165 60% 45% / 0.6)" },
@@ -97,6 +101,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "float": "float 6s ease-in-out infinite",
         "float-slow": "float-slow 8s ease-in-out infinite",
+        "float-delayed": "float-delayed 7s ease-in-out 2s infinite",
         "pulse-glow": "pulse-glow 3s ease-in-out infinite",
         "count-up": "count-up 0.6s ease-out forwards",
       },
