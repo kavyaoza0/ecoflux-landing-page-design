@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navItems = ["Solutions", "How It Works", "Impact", "Use Cases"];
@@ -29,8 +29,8 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6">
-        <button onClick={() => scrollTo("hero")} className="text-2xl font-bold tracking-tight">
-          <span className="text-gradient">Eco</span>
+        <button onClick={() => scrollTo("hero")} className="text-2xl font-bold tracking-tight group">
+          <span className="text-gradient group-hover:opacity-80 transition-opacity">Eco</span>
           <span className="text-foreground">Flux</span>
         </button>
 
@@ -39,16 +39,18 @@ const Navbar = () => {
             <button
               key={item}
               onClick={() => scrollTo(item.toLowerCase().replace(/\s/g, "-"))}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 relative group"
             >
               {item}
+              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
             </button>
           ))}
           <button
             onClick={() => scrollTo("cta")}
-            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors relative group"
           >
             Get Started
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
           </button>
         </div>
 
@@ -57,23 +59,32 @@ const Navbar = () => {
         </button>
       </div>
 
-      {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="md:hidden glass mx-4 mt-2 rounded-lg p-4 space-y-3"
-        >
-          {navItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollTo(item.toLowerCase().replace(/\s/g, "-"))}
-              className="block w-full text-left text-sm text-muted-foreground hover:text-foreground py-2"
-            >
-              {item}
-            </button>
-          ))}
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden glass mx-4 mt-2 rounded-lg overflow-hidden"
+          >
+            <div className="p-4 space-y-3">
+              {navItems.map((item, i) => (
+                <motion.button
+                  key={item}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => scrollTo(item.toLowerCase().replace(/\s/g, "-"))}
+                  className="block w-full text-left text-sm text-muted-foreground hover:text-foreground py-2 hover:pl-2 transition-all duration-200"
+                >
+                  {item}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

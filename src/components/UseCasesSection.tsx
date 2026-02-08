@@ -53,13 +53,31 @@ const UseCasesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass rounded-2xl p-6 text-center group hover:border-primary/30 transition-all duration-500"
+              whileHover={{
+                y: -12,
+                transition: { type: "spring", stiffness: 300, damping: 20 },
+              }}
+              className="glass rounded-2xl p-6 text-center group cursor-pointer relative overflow-hidden"
             >
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5 group-hover:glow-soft transition-all duration-500">
-                <item.icon className="w-7 h-7 text-primary" />
+              {/* Shimmer effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               </div>
-              <h3 className="text-lg font-semibold mb-2 text-foreground">{item.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+
+              {/* Hover border glow */}
+              <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-primary/30 transition-colors duration-500 pointer-events-none" />
+
+              <div className="relative z-10">
+                <motion.div
+                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                  className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5 group-hover:glow-soft transition-shadow duration-500"
+                >
+                  <item.icon className="w-7 h-7 text-primary" />
+                </motion.div>
+                <h3 className="text-lg font-semibold mb-2 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+              </div>
             </motion.div>
           ))}
         </div>

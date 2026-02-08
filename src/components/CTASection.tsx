@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/MagneticButton";
 
 const CTASection = () => {
   return (
     <section id="cta" className="section-padding relative overflow-hidden">
-      {/* Glow orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
+      {/* Animated glow orbs */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl animate-pulse-glow" />
+      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-accent/5 blur-3xl animate-float-slow" />
 
       <div className="container mx-auto max-w-3xl relative">
         <motion.div
@@ -23,12 +25,16 @@ const CTASection = () => {
             Join hundreds of forward-thinking businesses already saving costs and reducing emissions with EcoFlux.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg" className="text-base px-10 py-6">
-              Get Started Today
-            </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-10 py-6">
-              Schedule a Demo
-            </Button>
+            <MagneticButton strength={0.3}>
+              <Button variant="hero" size="lg" className="text-base px-10 py-6">
+                Get Started Today
+              </Button>
+            </MagneticButton>
+            <MagneticButton strength={0.2}>
+              <Button variant="heroOutline" size="lg" className="text-base px-10 py-6">
+                Schedule a Demo
+              </Button>
+            </MagneticButton>
           </div>
         </motion.div>
       </div>
