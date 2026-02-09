@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, BarChart3, Shield, Leaf } from "lucide-react";
 
 const solutions = [
@@ -35,7 +36,7 @@ const cardVariants = {
 
 const iconVariants = {
   rest: { rotate: 0, scale: 1 },
-  hover: { rotate: 5, scale: 1.15, transition: { type: "spring", stiffness: 400 } },
+  hover: { rotate: 10, scale: 1.2, transition: { type: "spring", stiffness: 400 } },
 };
 
 const glowVariants = {
@@ -44,14 +45,27 @@ const glowVariants = {
 };
 
 const SolutionsSection = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+
   return (
-    <section id="solutions" className="section-padding relative">
-      <div className="container mx-auto max-w-6xl">
+    <section id="solutions" ref={ref} className="section-padding relative overflow-hidden">
+      {/* Parallax background element */}
+      <motion.div
+        style={{ y: bgY }}
+        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl pointer-events-none"
+      />
+
+      <div className="container mx-auto max-w-6xl relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <p className="text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">What We Offer</p>
@@ -67,13 +81,12 @@ const SolutionsSection = () => {
           {solutions.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
               variants={cardVariants}
               whileHover="hover"
-              initial-state="rest"
               className="glass rounded-2xl p-8 group relative overflow-hidden cursor-pointer"
             >
               {/* Hover glow background */}
@@ -88,6 +101,11 @@ const SolutionsSection = () => {
                 className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none"
               />
 
+              {/* Shimmer sweep effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+
               <div className="relative z-10">
                 <motion.div
                   variants={iconVariants}
@@ -95,8 +113,17 @@ const SolutionsSection = () => {
                 >
                   <item.icon className="w-6 h-6 text-primary" />
                 </motion.div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">{item.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+
+                {/* Reveal arrow on hover */}
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  variants={{ rest: { opacity: 0, x: -10 }, hover: { opacity: 1, x: 0 } }}
+                  className="mt-4 text-primary text-sm font-medium"
+                >
+                  Learn more →
+                </motion.div>
               </div>
             </motion.div>
           ))}
