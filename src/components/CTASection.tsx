@@ -1,20 +1,40 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/MagneticButton";
+import EnergyLines from "@/components/EnergyLines";
 
 const CTASection = () => {
-  return (
-    <section id="cta" className="section-padding relative overflow-hidden">
-      {/* Animated glow orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl animate-pulse-glow" />
-      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-accent/5 blur-3xl animate-float-slow" />
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
-      <div className="container mx-auto max-w-3xl relative">
+  return (
+    <section id="cta" ref={ref} className="section-padding relative overflow-hidden">
+      {/* Animated glow orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.12, 0.05] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"
+      />
+      <motion.div
+        animate={{ x: [0, 40, -30, 0], y: [0, -30, 20, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-accent/5 blur-3xl"
+      />
+
+      <EnergyLines />
+
+      <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           className="text-center"
         >
           <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
@@ -37,7 +57,7 @@ const CTASection = () => {
             </MagneticButton>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

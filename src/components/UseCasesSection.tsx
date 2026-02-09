@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Building2, Factory, Hotel, Store } from "lucide-react";
 
 const useCases = [
@@ -25,15 +26,25 @@ const useCases = [
 ];
 
 const UseCasesSection = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const bgX = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+
   return (
-    <section id="use-cases" className="section-padding relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
+    <section id="use-cases" ref={ref} className="section-padding relative overflow-hidden">
+      <motion.div
+        style={{ x: bgX }}
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent pointer-events-none"
+      />
       <div className="container mx-auto max-w-6xl relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <p className="text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">Industries</p>
@@ -49,19 +60,22 @@ const UseCasesSection = () => {
           {useCases.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{
-                y: -12,
+                y: -14,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
               }}
               className="glass rounded-2xl p-6 text-center group cursor-pointer relative overflow-hidden"
             >
-              {/* Shimmer effect on hover */}
+              {/* Multi-layer shimmer */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/3 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1200" />
               </div>
 
               {/* Hover border glow */}
@@ -69,7 +83,7 @@ const UseCasesSection = () => {
 
               <div className="relative z-10">
                 <motion.div
-                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  whileHover={{ rotate: 15, scale: 1.15 }}
                   transition={{ type: "spring", stiffness: 400 }}
                   className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5 group-hover:glow-soft transition-shadow duration-500"
                 >
