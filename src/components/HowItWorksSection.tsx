@@ -1,5 +1,7 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const steps = [
   {
@@ -33,9 +35,14 @@ const HowItWorksSection = () => {
   const lineWidth = useTransform(scrollYProgress, [0.1, 0.6], ["0%", "100%"]);
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="section-padding relative">
+    <section id="how-it-works" ref={sectionRef} className="section-padding relative overflow-hidden">
+      {/* 3D background scene */}
+      <Suspense fallback={null}>
+        <SectionScene variant="left" />
+      </Suspense>
+
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
-      <div className="container mx-auto max-w-6xl relative">
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -66,7 +73,13 @@ const HowItWorksSection = () => {
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.15 }}
+              whileHover={{
+                y: -8,
+                rotateY: 5,
+                transition: { type: "spring", stiffness: 300, damping: 20 },
+              }}
               className="relative group cursor-default"
+              style={{ perspective: "800px" }}
             >
               {/* Step number with hover morph */}
               <motion.div

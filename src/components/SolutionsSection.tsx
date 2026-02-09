@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, BarChart3, Shield, Leaf } from "lucide-react";
+
+const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const solutions = [
   {
@@ -26,10 +28,11 @@ const solutions = [
 ];
 
 const cardVariants = {
-  rest: { scale: 1, y: 0 },
+  rest: { scale: 1, y: 0, rotateX: 0 },
   hover: {
     scale: 1.03,
     y: -8,
+    rotateX: 2,
     transition: { type: "spring", stiffness: 300, damping: 20 },
   },
 };
@@ -54,13 +57,18 @@ const SolutionsSection = () => {
 
   return (
     <section id="solutions" ref={ref} className="section-padding relative overflow-hidden">
+      {/* 3D background scene */}
+      <Suspense fallback={null}>
+        <SectionScene variant="right" />
+      </Suspense>
+
       {/* Parallax background element */}
       <motion.div
         style={{ y: bgY }}
         className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl pointer-events-none"
       />
 
-      <div className="container mx-auto max-w-6xl relative">
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -88,6 +96,7 @@ const SolutionsSection = () => {
               variants={cardVariants}
               whileHover="hover"
               className="glass rounded-2xl p-8 group relative overflow-hidden cursor-pointer"
+              style={{ perspective: "800px" }}
             >
               {/* Hover glow background */}
               <motion.div
