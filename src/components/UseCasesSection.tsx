@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Building2, Factory, Hotel, Store } from "lucide-react";
+
+const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const useCases = [
   {
@@ -35,11 +37,16 @@ const UseCasesSection = () => {
 
   return (
     <section id="use-cases" ref={ref} className="section-padding relative overflow-hidden">
+      {/* 3D background scene */}
+      <Suspense fallback={null}>
+        <SectionScene variant="right" />
+      </Suspense>
+
       <motion.div
         style={{ x: bgX }}
         className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent pointer-events-none"
       />
-      <div className="container mx-auto max-w-6xl relative">
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -60,15 +67,18 @@ const UseCasesSection = () => {
           {useCases.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)", rotateX: 15 }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", rotateX: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{
                 y: -14,
+                rotateY: 5,
+                scale: 1.02,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
               }}
               className="glass rounded-2xl p-6 text-center group cursor-pointer relative overflow-hidden"
+              style={{ perspective: "800px", transformStyle: "preserve-3d" }}
             >
               {/* Multi-layer shimmer */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">

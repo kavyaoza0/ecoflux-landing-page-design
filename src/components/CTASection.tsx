@@ -1,8 +1,10 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/MagneticButton";
 import EnergyLines from "@/components/EnergyLines";
+
+const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const CTASection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,6 +17,11 @@ const CTASection = () => {
 
   return (
     <section id="cta" ref={ref} className="section-padding relative overflow-hidden">
+      {/* 3D background scene */}
+      <Suspense fallback={null}>
+        <SectionScene variant="center" />
+      </Suspense>
+
       {/* Animated glow orbs */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.12, 0.05] }}
@@ -29,7 +36,7 @@ const CTASection = () => {
 
       <EnergyLines />
 
-      <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative">
+      <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}

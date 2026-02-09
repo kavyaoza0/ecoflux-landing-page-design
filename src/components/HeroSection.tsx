@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/hero-video.mp4";
 import { MagneticButton } from "@/components/MagneticButton";
 import { TextReveal } from "@/components/TextReveal";
 import EnergyLines from "@/components/EnergyLines";
+
+const FloatingScene = lazy(() => import("@/components/FloatingScene"));
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,7 +23,7 @@ const HeroSection = () => {
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 0.9]);
 
   return (
-    <section id="hero" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" ref={ref} className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background video with scroll parallax + rotation */}
       <motion.div
         style={{ scale: videoScale, opacity: videoOpacity, rotate: videoRotate }}
@@ -51,6 +53,11 @@ const HeroSection = () => {
         }}
       />
 
+      {/* 3D Floating Scene */}
+      <Suspense fallback={null}>
+        <FloatingScene className="z-[5]" />
+      </Suspense>
+
       {/* Energy lines animation */}
       <EnergyLines />
 
@@ -64,11 +71,6 @@ const HeroSection = () => {
         animate={{ x: [0, -40, 20, 0], y: [0, 30, -15, 0] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
         className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/6 blur-3xl"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.05, 0.1, 0.05] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"
       />
 
       {/* Content */}

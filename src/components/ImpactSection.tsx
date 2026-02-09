@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import EnergyLines from "@/components/EnergyLines";
+
+const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 interface CounterProps {
   end: number;
@@ -37,16 +39,17 @@ const Counter = ({ end, suffix, label, duration = 2000, delay = 0 }: CounterProp
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: delay / 1000 }}
       className="text-center group"
     >
       <motion.div
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.15, rotateY: 10 }}
         transition={{ type: "spring", stiffness: 300 }}
         className="text-5xl md:text-6xl font-bold text-gradient mb-2 cursor-default"
+        style={{ perspective: "600px" }}
       >
         {count.toLocaleString()}{suffix}
       </motion.div>
@@ -72,6 +75,11 @@ const ImpactSection = () => {
 
   return (
     <section id="impact" ref={ref} className="section-padding relative overflow-hidden">
+      {/* 3D background scene */}
+      <Suspense fallback={null}>
+        <SectionScene variant="center" />
+      </Suspense>
+
       {/* Parallax background glow */}
       <motion.div
         style={{ y: bgY }}
@@ -82,7 +90,7 @@ const ImpactSection = () => {
 
       <EnergyLines />
 
-      <div className="container mx-auto max-w-5xl relative">
+      <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
