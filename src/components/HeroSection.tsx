@@ -1,12 +1,9 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/hero-video.mp4";
 import { MagneticButton } from "@/components/MagneticButton";
 import { TextReveal } from "@/components/TextReveal";
-import EnergyLines from "@/components/EnergyLines";
-
-const FloatingScene = lazy(() => import("@/components/FloatingScene"));
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -17,16 +14,15 @@ const HeroSection = () => {
 
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
-  const videoRotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 0.9]);
 
   return (
     <section id="hero" ref={ref} className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background video with scroll parallax + rotation */}
+      {/* Background video with scroll parallax */}
       <motion.div
-        style={{ scale: videoScale, opacity: videoOpacity, rotate: videoRotate }}
+        style={{ scale: videoScale, opacity: videoOpacity }}
         className="absolute inset-0"
       >
         <video
@@ -35,7 +31,6 @@ const HeroSection = () => {
           loop
           playsInline
           className="w-full h-full object-cover"
-          poster=""
         >
           <source src={heroVideo} type="video/mp4" />
         </video>
@@ -43,34 +38,13 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
       </motion.div>
 
-      {/* Film grain overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-10 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2EpIi8+PC9zdmc+')] animate-grain" />
-
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none z-10 opacity-[0.015]"
+      {/* Subtle grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(165 60% 45% / 0.1) 2px, hsl(165 60% 45% / 0.1) 4px)",
+          backgroundImage: `linear-gradient(hsl(var(--primary) / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary) / 0.3) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
         }}
-      />
-
-      {/* 3D Floating Scene */}
-      <Suspense fallback={null}>
-        <FloatingScene className="z-[5]" />
-      </Suspense>
-
-      {/* Energy lines animation */}
-      <EnergyLines />
-
-      {/* Floating orbs with enhanced animation */}
-      <motion.div
-        animate={{ x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-primary/8 blur-3xl"
-      />
-      <motion.div
-        animate={{ x: [0, -40, 20, 0], y: [0, 30, -15, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/6 blur-3xl"
       />
 
       {/* Content */}
@@ -120,7 +94,7 @@ const HeroSection = () => {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator with pulse */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
