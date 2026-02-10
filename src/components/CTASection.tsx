@@ -1,10 +1,7 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/MagneticButton";
-import EnergyLines from "@/components/EnergyLines";
-
-const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const CTASection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -17,24 +14,8 @@ const CTASection = () => {
 
   return (
     <section id="cta" ref={ref} className="section-padding relative overflow-hidden">
-      {/* 3D background scene */}
-      <Suspense fallback={null}>
-        <SectionScene variant="center" />
-      </Suspense>
-
-      {/* Animated glow orbs */}
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.12, 0.05] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"
-      />
-      <motion.div
-        animate={{ x: [0, 40, -30, 0], y: [0, -30, 20, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-accent/5 blur-3xl"
-      />
-
-      <EnergyLines />
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.04] blur-[150px] pointer-events-none" />
 
       <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative z-10">
         <motion.div

@@ -1,7 +1,5 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-
-const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const steps = [
   {
@@ -36,10 +34,13 @@ const HowItWorksSection = () => {
 
   return (
     <section id="how-it-works" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* 3D background scene */}
-      <Suspense fallback={null}>
-        <SectionScene variant="left" />
-      </Suspense>
+      {/* Subtle horizontal line pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage: `repeating-linear-gradient(0deg, hsl(var(--primary) / 0.5) 0px, hsl(var(--primary) / 0.5) 1px, transparent 1px, transparent 80px)`,
+        }}
+      />
 
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
       <div className="container mx-auto max-w-6xl relative z-10">
@@ -56,7 +57,7 @@ const HowItWorksSection = () => {
           </h2>
         </motion.div>
 
-        {/* Scroll-driven progress line (desktop only) */}
+        {/* Scroll-driven progress line */}
         <div className="hidden md:block relative mb-4">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-border/30" />
           <motion.div
@@ -75,13 +76,10 @@ const HowItWorksSection = () => {
               transition={{ duration: 0.7, delay: i * 0.15 }}
               whileHover={{
                 y: -8,
-                rotateY: 5,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
               }}
               className="relative group cursor-default"
-              style={{ perspective: "800px" }}
             >
-              {/* Step number with hover morph */}
               <motion.div
                 className="text-6xl font-black text-primary/10 mb-4 transition-colors duration-500 group-hover:text-primary/30"
                 whileHover={{ scale: 1.15, rotate: -5 }}
@@ -90,7 +88,6 @@ const HowItWorksSection = () => {
                 {step.number}
               </motion.div>
 
-              {/* Glow dot indicator */}
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}

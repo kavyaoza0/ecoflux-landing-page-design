@@ -1,8 +1,6 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Building2, Factory, Hotel, Store } from "lucide-react";
-
-const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const useCases = [
   {
@@ -37,15 +35,15 @@ const UseCasesSection = () => {
 
   return (
     <section id="use-cases" ref={ref} className="section-padding relative overflow-hidden">
-      {/* 3D background scene */}
-      <Suspense fallback={null}>
-        <SectionScene variant="right" />
-      </Suspense>
-
+      {/* Subtle gradient wash */}
       <motion.div
         style={{ x: bgX }}
         className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent pointer-events-none"
       />
+
+      {/* Corner accent */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
+
       <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
@@ -67,28 +65,22 @@ const UseCasesSection = () => {
           {useCases.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)", rotateX: 15 }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", rotateX: 0 }}
+              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               whileHover={{
                 y: -14,
-                rotateY: 5,
                 scale: 1.02,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
               }}
               className="glass rounded-2xl p-6 text-center group cursor-pointer relative overflow-hidden"
-              style={{ perspective: "800px", transformStyle: "preserve-3d" }}
             >
-              {/* Multi-layer shimmer */}
+              {/* Shimmer */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/3 to-transparent -translate-y-full group-hover:translate-y-full transition-transform duration-1200" />
-              </div>
 
-              {/* Hover border glow */}
               <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-primary/30 transition-colors duration-500 pointer-events-none" />
 
               <div className="relative z-10">

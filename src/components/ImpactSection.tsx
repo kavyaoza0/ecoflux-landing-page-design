@@ -1,8 +1,5 @@
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import EnergyLines from "@/components/EnergyLines";
-
-const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 interface CounterProps {
   end: number;
@@ -75,20 +72,10 @@ const ImpactSection = () => {
 
   return (
     <section id="impact" ref={ref} className="section-padding relative overflow-hidden">
-      {/* 3D background scene */}
-      <Suspense fallback={null}>
-        <SectionScene variant="center" />
-      </Suspense>
-
-      {/* Parallax background glow */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 pointer-events-none"
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-3xl" />
+      {/* Soft centered glow */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[150px]" />
       </motion.div>
-
-      <EnergyLines />
 
       <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
@@ -111,7 +98,6 @@ const ImpactSection = () => {
           transition={{ duration: 0.8 }}
           className="glass rounded-3xl p-12 md:p-16 relative overflow-hidden group"
         >
-          {/* Animated border glow */}
           <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
             style={{ boxShadow: "inset 0 0 60px hsl(165 60% 45% / 0.08)" }}
           />

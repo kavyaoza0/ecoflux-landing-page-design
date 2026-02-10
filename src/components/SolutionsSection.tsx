@@ -1,8 +1,6 @@
-import { useRef, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, BarChart3, Shield, Leaf } from "lucide-react";
-
-const SectionScene = lazy(() => import("@/components/SectionScene"));
 
 const solutions = [
   {
@@ -57,15 +55,19 @@ const SolutionsSection = () => {
 
   return (
     <section id="solutions" ref={ref} className="section-padding relative overflow-hidden">
-      {/* 3D background scene */}
-      <Suspense fallback={null}>
-        <SectionScene variant="right" />
-      </Suspense>
+      {/* Subtle radial gradient */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/[0.04] blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[100px]" />
+      </div>
 
-      {/* Parallax background element */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/3 blur-3xl pointer-events-none"
+      {/* Dot pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(hsl(var(--primary)) 1px, transparent 1px)`,
+          backgroundSize: "32px 32px",
+        }}
       />
 
       <div className="container mx-auto max-w-6xl relative z-10">
@@ -98,34 +100,19 @@ const SolutionsSection = () => {
               className="glass rounded-2xl p-8 group relative overflow-hidden cursor-pointer"
               style={{ perspective: "800px" }}
             >
-              {/* Hover glow background */}
-              <motion.div
-                variants={glowVariants}
-                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 pointer-events-none"
-              />
+              <motion.div variants={glowVariants} className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 pointer-events-none" />
+              <motion.div variants={glowVariants} className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none" />
 
-              {/* Animated border on hover */}
-              <motion.div
-                variants={glowVariants}
-                className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none"
-              />
-
-              {/* Shimmer sweep effect */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
 
               <div className="relative z-10">
-                <motion.div
-                  variants={iconVariants}
-                  className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:glow-soft transition-shadow duration-500"
-                >
+                <motion.div variants={iconVariants} className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:glow-soft transition-shadow duration-500">
                   <item.icon className="w-6 h-6 text-primary" />
                 </motion.div>
                 <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-
-                {/* Reveal arrow on hover */}
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   variants={{ rest: { opacity: 0, x: -10 }, hover: { opacity: 1, x: 0 } }}
