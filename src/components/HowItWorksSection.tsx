@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { TiltCard } from "@/components/TiltCard";
 
 const steps = [
   {
@@ -34,7 +35,6 @@ const HowItWorksSection = () => {
 
   return (
     <section id="how-it-works" ref={sectionRef} className="section-padding relative overflow-hidden">
-      {/* Subtle horizontal line pattern */}
       <div
         className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{
@@ -49,10 +49,10 @@ const HowItWorksSection = () => {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <p className="text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">The Process</p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          <p className="text-xs sm:text-sm tracking-[0.2em] uppercase text-primary mb-3 sm:mb-4 font-medium">The Process</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
             How EcoFlux <span className="text-gradient">Works</span>
           </h2>
         </motion.div>
@@ -66,7 +66,7 @@ const HowItWorksSection = () => {
           />
         </div>
 
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
           {steps.map((step, i) => (
             <motion.div
               key={step.number}
@@ -74,32 +74,28 @@ const HowItWorksSection = () => {
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.15 }}
-              whileHover={{
-                y: -8,
-                transition: { type: "spring", stiffness: 300, damping: 20 },
-              }}
-              className="relative group cursor-default"
             >
-              <motion.div
-                className="text-6xl font-black text-primary/10 mb-4 transition-colors duration-500 group-hover:text-primary/30"
-                whileHover={{ scale: 1.15, rotate: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                {step.number}
-              </motion.div>
+              <TiltCard tiltStrength={12} glareEnabled={false} className="group cursor-default p-2">
+                <motion.div
+                  className="text-4xl sm:text-5xl md:text-6xl font-black text-primary/10 mb-3 sm:mb-4 transition-colors duration-500 group-hover:text-primary/30"
+                  style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}
+                >
+                  {step.number}
+                </motion.div>
 
-              <motion.div
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + i * 0.15, type: "spring", stiffness: 300 }}
-                className="w-3 h-3 rounded-full bg-primary mb-4 group-hover:glow-soft transition-shadow duration-500"
-              />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.15, type: "spring", stiffness: 300 }}
+                  className="w-3 h-3 rounded-full bg-primary mb-3 sm:mb-4 group-hover:glow-soft transition-shadow duration-500"
+                />
 
-              <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed text-sm">{step.description}</p>
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm">{step.description}</p>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

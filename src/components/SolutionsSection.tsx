@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, BarChart3, Shield, Leaf } from "lucide-react";
+import { TiltCard } from "@/components/TiltCard";
 
 const solutions = [
   {
@@ -25,19 +26,9 @@ const solutions = [
   },
 ];
 
-const cardVariants = {
-  rest: { scale: 1, y: 0, rotateX: 0 },
-  hover: {
-    scale: 1.03,
-    y: -8,
-    rotateX: 2,
-    transition: { type: "spring", stiffness: 300, damping: 20 },
-  },
-};
-
 const iconVariants = {
-  rest: { rotate: 0, scale: 1 },
-  hover: { rotate: 10, scale: 1.2, transition: { type: "spring", stiffness: 400 } },
+  rest: { rotate: 0, scale: 1, z: 0 },
+  hover: { rotate: 10, scale: 1.2, z: 30, transition: { type: "spring", stiffness: 400 } },
 };
 
 const glowVariants = {
@@ -47,11 +38,6 @@ const glowVariants = {
 
 const SolutionsSection = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
     <section id="solutions" ref={ref} className="section-padding relative overflow-hidden">
@@ -76,18 +62,18 @@ const SolutionsSection = () => {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <p className="text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">What We Offer</p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          <p className="text-xs sm:text-sm tracking-[0.2em] uppercase text-primary mb-3 sm:mb-4 font-medium">What We Offer</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
             Smart Energy <span className="text-gradient">Solutions</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg px-2">
             End-to-end clean energy infrastructure designed for the demands of modern business.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
           {solutions.map((item, i) => (
             <motion.div
               key={item.title}
@@ -95,32 +81,29 @@ const SolutionsSection = () => {
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              variants={cardVariants}
-              whileHover="hover"
-              className="glass rounded-2xl p-8 group relative overflow-hidden cursor-pointer"
-              style={{ perspective: "800px" }}
             >
-              <motion.div variants={glowVariants} className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 pointer-events-none" />
-              <motion.div variants={glowVariants} className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none" />
+              <TiltCard
+                tiltStrength={10}
+                className="glass rounded-2xl p-6 sm:p-8 group cursor-pointer overflow-hidden h-full"
+              >
+                <motion.div variants={glowVariants} initial="rest" whileHover="hover" className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 pointer-events-none" />
+                <motion.div variants={glowVariants} initial="rest" whileHover="hover" className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none" />
 
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              </div>
-
-              <div className="relative z-10">
-                <motion.div variants={iconVariants} className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:glow-soft transition-shadow duration-500">
-                  <item.icon className="w-6 h-6 text-primary" />
-                </motion.div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-                <motion.div
-                  initial={{ opacity: 0, x: -10 }}
-                  variants={{ rest: { opacity: 0, x: -10 }, hover: { opacity: 1, x: 0 } }}
-                  className="mt-4 text-primary text-sm font-medium"
-                >
-                  Learn more →
-                </motion.div>
-              </div>
+                <div className="relative z-10" style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }}>
+                  <motion.div variants={iconVariants} initial="rest" whileHover="hover" className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 sm:mb-6 group-hover:glow-soft transition-shadow duration-500">
+                    <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                  </motion.div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{item.description}</p>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileHover={{ opacity: 1, x: 0 }}
+                    className="mt-3 sm:mt-4 text-primary text-sm font-medium"
+                  >
+                    Learn more →
+                  </motion.div>
+                </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
