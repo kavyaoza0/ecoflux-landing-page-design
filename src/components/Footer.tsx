@@ -9,9 +9,9 @@ const Footer = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="border-t border-border/50 py-12 px-6"
+      className="border-t border-border/50 py-8 sm:py-12 px-4 sm:px-6"
     >
-      <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
         <motion.div
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
@@ -20,7 +20,7 @@ const Footer = () => {
           <span className="text-gradient">Eco</span>
           <span className="text-foreground">Flux</span>
         </motion.div>
-        <div className="flex gap-8 text-sm text-muted-foreground">
+        <div className="flex gap-6 sm:gap-8 text-sm text-muted-foreground">
           {footerLinks.map((link, i) => (
             <motion.span
               key={link}

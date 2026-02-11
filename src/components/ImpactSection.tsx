@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { TiltCard } from "@/components/TiltCard";
 
 interface CounterProps {
   end: number;
@@ -43,14 +44,14 @@ const Counter = ({ end, suffix, label, duration = 2000, delay = 0 }: CounterProp
       className="text-center group"
     >
       <motion.div
-        whileHover={{ scale: 1.15, rotateY: 10 }}
+        whileHover={{ scale: 1.1, rotateY: 15, rotateX: -5 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="text-5xl md:text-6xl font-bold text-gradient mb-2 cursor-default"
-        style={{ perspective: "600px" }}
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-2 cursor-default"
+        style={{ perspective: "600px", transformStyle: "preserve-3d" }}
       >
         {count.toLocaleString()}{suffix}
       </motion.div>
-      <p className="text-muted-foreground text-sm group-hover:text-foreground transition-colors duration-300">{label}</p>
+      <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors duration-300">{label}</p>
     </motion.div>
   );
 };
@@ -72,7 +73,6 @@ const ImpactSection = () => {
 
   return (
     <section id="impact" ref={ref} className="section-padding relative overflow-hidden">
-      {/* Soft centered glow */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[150px]" />
       </motion.div>
@@ -83,10 +83,10 @@ const ImpactSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <p className="text-sm tracking-[0.2em] uppercase text-primary mb-4 font-medium">Our Impact</p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+          <p className="text-xs sm:text-sm tracking-[0.2em] uppercase text-primary mb-3 sm:mb-4 font-medium">Our Impact</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
             Measurable <span className="text-gradient">Results</span>
           </h2>
         </motion.div>
@@ -96,16 +96,17 @@ const ImpactSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="glass rounded-3xl p-12 md:p-16 relative overflow-hidden group"
         >
-          <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-            style={{ boxShadow: "inset 0 0 60px hsl(165 60% 45% / 0.08)" }}
-          />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-            {metrics.map((m) => (
-              <Counter key={m.label} {...m} />
-            ))}
-          </div>
+          <TiltCard tiltStrength={6} className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-16 group overflow-hidden">
+            <div className="absolute inset-0 rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+              style={{ boxShadow: "inset 0 0 60px hsl(165 60% 45% / 0.08)" }}
+            />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 relative z-10" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
+              {metrics.map((m) => (
+                <Counter key={m.label} {...m} />
+              ))}
+            </div>
+          </TiltCard>
         </motion.div>
       </div>
     </section>

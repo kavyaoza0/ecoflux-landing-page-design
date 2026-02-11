@@ -14,10 +14,9 @@ const CTASection = () => {
 
   return (
     <section id="cta" ref={ref} className="section-padding relative overflow-hidden">
-      {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.04] blur-[150px] pointer-events-none" />
 
-      <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative z-10">
+      <motion.div style={{ scale, opacity }} className="container mx-auto max-w-3xl relative z-10 px-4">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -25,21 +24,21 @@ const CTASection = () => {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
             Ready to Power<br />
             <span className="text-gradient">Your Future?</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto mb-8 sm:mb-10 px-2">
             Join hundreds of forward-thinking businesses already saving costs and reducing emissions with EcoFlux.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
             <MagneticButton strength={0.3}>
-              <Button variant="hero" size="lg" className="text-base px-10 py-6">
+              <Button variant="hero" size="lg" className="text-sm sm:text-base px-8 sm:px-10 py-5 sm:py-6 w-full sm:w-auto">
                 Get Started Today
               </Button>
             </MagneticButton>
             <MagneticButton strength={0.2}>
-              <Button variant="heroOutline" size="lg" className="text-base px-10 py-6">
+              <Button variant="heroOutline" size="lg" className="text-sm sm:text-base px-8 sm:px-10 py-5 sm:py-6 w-full sm:w-auto">
                 Schedule a Demo
               </Button>
             </MagneticButton>
