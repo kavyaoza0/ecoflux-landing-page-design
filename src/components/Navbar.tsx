@@ -10,7 +10,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handler);
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
@@ -25,16 +25,16 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass py-3" : "py-5"
+        scrolled ? "glass py-2 sm:py-3" : "py-3 sm:py-5"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6">
-        <button onClick={() => scrollTo("hero")} className="text-2xl font-bold tracking-tight group">
+      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6">
+        <button onClick={() => scrollTo("hero")} className="text-xl sm:text-2xl font-bold tracking-tight group">
           <span className="text-gradient group-hover:opacity-80 transition-opacity">Eco</span>
           <span className="text-foreground">Flux</span>
         </button>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {navItems.map((item) => (
             <button
               key={item}
@@ -54,8 +54,8 @@ const Navbar = () => {
           </button>
         </div>
 
-        <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        <button className="md:hidden text-foreground p-1" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
@@ -66,9 +66,9 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden glass mx-4 mt-2 rounded-lg overflow-hidden"
+            className="md:hidden glass mx-3 sm:mx-4 mt-2 rounded-lg overflow-hidden"
           >
-            <div className="p-4 space-y-3">
+            <div className="p-3 sm:p-4 space-y-1 sm:space-y-3">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item}
@@ -81,6 +81,15 @@ const Navbar = () => {
                   {item}
                 </motion.button>
               ))}
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.05 }}
+                onClick={() => scrollTo("cta")}
+                className="block w-full text-left text-sm font-medium text-primary py-2"
+              >
+                Get Started
+              </motion.button>
             </div>
           </motion.div>
         )}

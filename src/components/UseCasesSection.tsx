@@ -40,51 +40,47 @@ const UseCasesSection = () => {
         style={{ x: bgX }}
         className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent pointer-events-none"
       />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] rounded-full bg-primary/[0.03] blur-[80px] sm:blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10 sm:mb-16"
         >
-          <p className="text-xs sm:text-sm tracking-[0.2em] uppercase text-primary mb-3 sm:mb-4 font-medium">Industries</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
+          <p className="text-[10px] sm:text-xs md:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase text-primary mb-2 sm:mb-4 font-medium">Industries</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
             Built for <span className="text-gradient">Business</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg px-2">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base md:text-lg px-2">
             From offices to factories, EcoFlux scales to meet the unique energy needs of any industry.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {useCases.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
             >
               <TiltCard tiltStrength={14} className="glass rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center group cursor-pointer overflow-hidden h-full">
-                {/* Shimmer */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                </div>
-                <div className="absolute inset-0 rounded-[inherit] border border-transparent group-hover:border-primary/30 transition-colors duration-500 pointer-events-none" />
+                <div className="absolute inset-0 rounded-[inherit] border border-transparent group-hover:border-primary/20 transition-colors duration-500 pointer-events-none" />
 
-                <div className="relative z-10" style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }}>
+                <div className="relative z-10">
                   <motion.div
                     whileHover={{ rotate: 15, scale: 1.15 }}
                     transition={{ type: "spring", stiffness: 400 }}
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-5 group-hover:glow-soft transition-shadow duration-500"
+                    className="w-11 h-11 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-5 group-hover:glow-soft transition-shadow duration-500"
                   >
-                    <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                    <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-primary" />
                   </motion.div>
-                  <h3 className="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">{item.description}</p>
+                  <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
+                  <p className="text-muted-foreground text-[11px] sm:text-xs md:text-sm leading-relaxed">{item.description}</p>
                 </div>
               </TiltCard>
             </motion.div>

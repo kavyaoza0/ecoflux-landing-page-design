@@ -37,21 +37,16 @@ const Counter = ({ end, suffix, label, duration = 2000, delay = 0 }: CounterProp
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: delay / 1000 }}
+      transition={{ duration: 0.5, delay: delay / 1000 }}
       className="text-center group"
     >
-      <motion.div
-        whileHover={{ scale: 1.1, rotateY: 15, rotateX: -5 }}
-        transition={{ type: "spring", stiffness: 300 }}
-        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-2 cursor-default"
-        style={{ perspective: "600px", transformStyle: "preserve-3d" }}
-      >
+      <div className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gradient mb-1 sm:mb-2 cursor-default">
         {count.toLocaleString()}{suffix}
-      </motion.div>
-      <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors duration-300">{label}</p>
+      </div>
+      <p className="text-muted-foreground text-[10px] sm:text-xs md:text-sm group-hover:text-foreground transition-colors duration-300">{label}</p>
     </motion.div>
   );
 };
@@ -74,19 +69,19 @@ const ImpactSection = () => {
   return (
     <section id="impact" ref={ref} className="section-padding relative overflow-hidden">
       <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[800px] h-[400px] sm:h-[800px] rounded-full bg-primary/5 blur-[100px] sm:blur-[150px]" />
       </motion.div>
 
       <div className="container mx-auto max-w-5xl relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
-          <p className="text-xs sm:text-sm tracking-[0.2em] uppercase text-primary mb-3 sm:mb-4 font-medium">Our Impact</p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 sm:mb-6">
+          <p className="text-[10px] sm:text-xs md:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase text-primary mb-2 sm:mb-4 font-medium">Our Impact</p>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
             Measurable <span className="text-gradient">Results</span>
           </h2>
         </motion.div>
@@ -95,13 +90,10 @@ const ImpactSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
         >
-          <TiltCard tiltStrength={6} className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-16 group overflow-hidden">
-            <div className="absolute inset-0 rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-              style={{ boxShadow: "inset 0 0 60px hsl(165 60% 45% / 0.08)" }}
-            />
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 relative z-10" style={{ transform: "translateZ(20px)", transformStyle: "preserve-3d" }}>
+          <TiltCard tiltStrength={6} className="glass rounded-xl sm:rounded-3xl p-5 sm:p-10 md:p-16 group overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 md:gap-10 relative z-10">
               {metrics.map((m) => (
                 <Counter key={m.label} {...m} />
               ))}
