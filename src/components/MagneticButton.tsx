@@ -1,5 +1,6 @@
 import { useRef, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MagneticButtonProps {
   children: ReactNode;
@@ -8,9 +9,11 @@ interface MagneticButtonProps {
 
 export const MagneticButton = ({ children, strength = 0.3 }: MagneticButtonProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const el = ref.current;
     if (!el) return;
     const { left, top, width, height } = el.getBoundingClientRect();
@@ -20,6 +23,10 @@ export const MagneticButton = ({ children, strength = 0.3 }: MagneticButtonProps
   };
 
   const reset = () => setPosition({ x: 0, y: 0 });
+
+  if (isMobile) {
+    return <div className="inline-block">{children}</div>;
+  }
 
   return (
     <motion.div

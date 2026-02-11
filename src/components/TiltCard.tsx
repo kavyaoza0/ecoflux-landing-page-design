@@ -1,5 +1,6 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TiltCardProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export const TiltCard = ({
   glareEnabled = true,
 }: TiltCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
@@ -30,6 +32,7 @@ export const TiltCard = ({
   const glareY = useTransform(mouseY, [0, 1], ["0%", "100%"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const el = ref.current;
     if (!el) return;
     const { left, top, width, height } = el.getBoundingClientRect();
@@ -42,6 +45,15 @@ export const TiltCard = ({
     mouseY.set(0.5);
   };
 
+  // On mobile, render without 3D transforms for performance
+  if (isMobile) {
+    return (
+      <div ref={ref} className={`relative ${className}`}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <motion.div
       ref={ref}
@@ -52,6 +64,7 @@ export const TiltCard = ({
         rotateY,
         transformStyle: "preserve-3d",
         perspective: "1000px",
+        willChange: "transform",
       }}
       className={`relative ${className}`}
     >
