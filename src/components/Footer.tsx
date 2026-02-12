@@ -46,7 +46,7 @@ const Footer = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-xs text-muted-foreground"
         >
-          © 2026 EcoFlux. All rights reserved.
+          © 2026 XYZ. All rights reserved.
         </motion.p>
       </div>
     </motion.footer>
