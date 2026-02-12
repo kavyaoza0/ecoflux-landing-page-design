@@ -26,6 +26,34 @@ const solutions = [
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      delay: i * 0.15,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+const iconVariants = {
+  hidden: { scale: 0, rotate: -30 },
+  visible: (i: number) => ({
+    scale: 1,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      stiffness: 260,
+      damping: 20,
+      delay: 0.3 + i * 0.15,
+    },
+  }),
+};
+
 const SolutionsSection = () => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -54,9 +82,17 @@ const SolutionsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <p className="text-[10px] sm:text-xs md:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase text-primary mb-2 sm:mb-4 font-medium">What We Offer</p>
+          <motion.p
+            initial={{ opacity: 0, letterSpacing: "0.05em" }}
+            whileInView={{ opacity: 1, letterSpacing: "0.2em" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-[10px] sm:text-xs md:text-sm uppercase text-primary mb-2 sm:mb-4 font-medium"
+          >
+            What We Offer
+          </motion.p>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
-            Smart Energy <span className="text-gradient">Solutions</span>
+            Smart Energy <span className="text-shimmer">Solutions</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base md:text-lg px-2">
             End-to-end clean energy infrastructure designed for the demands of modern business.
@@ -67,10 +103,11 @@ const SolutionsSection = () => {
           {solutions.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-30px" }}
+              variants={cardVariants}
             >
               <TiltCard
                 tiltStrength={10}
@@ -80,14 +117,42 @@ const SolutionsSection = () => {
                 <div className="absolute inset-0 rounded-[inherit] border border-transparent group-hover:border-primary/20 transition-colors duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-6 group-hover:glow-soft transition-shadow duration-500">
+                  <motion.div
+                    custom={i}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={iconVariants}
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-6 group-hover:glow-soft transition-shadow duration-500"
+                  >
                     <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-                  </div>
-                  <h3 className="text-base sm:text-xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-primary transition-colors duration-300">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm md:text-base">{item.description}</p>
-                  <div className="mt-3 sm:mt-4 text-primary text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  </motion.div>
+                  <motion.h3
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+                    className="text-base sm:text-xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-primary transition-colors duration-300"
+                  >
+                    {item.title}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+                    className="text-muted-foreground leading-relaxed text-xs sm:text-sm md:text-base"
+                  >
+                    {item.description}
+                  </motion.p>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="mt-3 sm:mt-4 text-primary text-xs sm:text-sm font-medium group-hover:opacity-100 transition-opacity duration-300"
+                  >
                     Learn more →
-                  </div>
+                  </motion.div>
                 </div>
               </TiltCard>
             </motion.div>
