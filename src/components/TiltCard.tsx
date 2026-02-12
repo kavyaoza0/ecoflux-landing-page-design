@@ -30,6 +30,11 @@ export const TiltCard = ({
   });
   const glareX = useTransform(mouseX, [0, 1], ["0%", "100%"]);
   const glareY = useTransform(mouseY, [0, 1], ["0%", "100%"]);
+  const glareBackground = useTransform(
+    [glareX, glareY],
+    ([x, y]) =>
+      `radial-gradient(circle at ${x} ${y}, hsl(165 60% 45% / 0.12), transparent 60%)`
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile) return;
@@ -45,40 +50,29 @@ export const TiltCard = ({
     mouseY.set(0.5);
   };
 
-  // On mobile, render without 3D transforms for performance
-  if (isMobile) {
-    return (
-      <div ref={ref} className={`relative ${className}`}>
-        {children}
-      </div>
-    );
-  }
-
   return (
     <motion.div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
-        willChange: "transform",
-      }}
+      onMouseMove={isMobile ? undefined : handleMouseMove}
+      onMouseLeave={isMobile ? undefined : handleMouseLeave}
+      style={
+        isMobile
+          ? undefined
+          : {
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+              perspective: "1000px",
+              willChange: "transform",
+            }
+      }
       className={`relative ${className}`}
     >
       {children}
-      {glareEnabled && (
+      {!isMobile && glareEnabled && (
         <motion.div
           className="absolute inset-0 rounded-[inherit] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: useTransform(
-              [glareX, glareY],
-              ([x, y]) =>
-                `radial-gradient(circle at ${x} ${y}, hsl(165 60% 45% / 0.12), transparent 60%)`
-            ),
-          }}
+          style={{ background: glareBackground }}
         />
       )}
     </motion.div>
