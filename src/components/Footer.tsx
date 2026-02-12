@@ -20,8 +20,8 @@ const Footer = () => {
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold tracking-tight cursor-pointer"
         >
-          <span className="text-shimmer">Eco</span>
-          <span className="text-foreground">Flux</span>
+          <span className="text-shimmer">X</span>
+          <span className="text-foreground">YZ</span>
         </motion.div>
         <div className="flex gap-6 sm:gap-8 text-sm text-muted-foreground">
           {footerLinks.map((link, i) => (
