@@ -13,21 +13,25 @@ const Footer = () => {
     >
       <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
         <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
           className="text-xl font-bold tracking-tight cursor-pointer"
         >
-          <span className="text-gradient">Eco</span>
+          <span className="text-shimmer">Eco</span>
           <span className="text-foreground">Flux</span>
         </motion.div>
         <div className="flex gap-6 sm:gap-8 text-sm text-muted-foreground">
           {footerLinks.map((link, i) => (
             <motion.span
               key={link}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: 0.1 + i * 0.1, duration: 0.4 }}
+              whileHover={{ y: -2, color: "hsl(165 60% 45%)" }}
               className="hover:text-foreground transition-colors duration-300 cursor-pointer relative group"
             >
               {link}
@@ -35,7 +39,15 @@ const Footer = () => {
             </motion.span>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">© 2026 EcoFlux. All rights reserved.</p>
+        <motion.p
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-xs text-muted-foreground"
+        >
+          © 2026 EcoFlux. All rights reserved.
+        </motion.p>
       </div>
     </motion.footer>
   );

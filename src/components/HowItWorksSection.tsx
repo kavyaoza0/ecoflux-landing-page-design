@@ -25,6 +25,20 @@ const steps = [
   },
 ];
 
+const stepVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      delay: i * 0.2,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
 const HowItWorksSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -51,9 +65,17 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 sm:mb-16"
         >
-          <p className="text-[10px] sm:text-xs md:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase text-primary mb-2 sm:mb-4 font-medium">The Process</p>
+          <motion.p
+            initial={{ opacity: 0, letterSpacing: "0.05em" }}
+            whileInView={{ opacity: 1, letterSpacing: "0.2em" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-[10px] sm:text-xs md:text-sm uppercase text-primary mb-2 sm:mb-4 font-medium"
+          >
+            The Process
+          </motion.p>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
-            How EcoFlux <span className="text-gradient">Works</span>
+            How EcoFlux <span className="text-shimmer">Works</span>
           </h2>
         </motion.div>
 
@@ -66,27 +88,46 @@ const HowItWorksSection = () => {
           />
         </div>
 
+        {/* Mobile vertical progress line */}
+        <div className="md:hidden relative">
+          <div className="absolute left-5 top-0 bottom-0 w-[2px] bg-border/20" />
+          <motion.div
+            style={{ height: lineWidth, willChange: "height" }}
+            className="absolute left-5 top-0 w-[2px] bg-gradient-to-b from-primary to-accent"
+          />
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {steps.map((step, i) => (
             <motion.div
               key={step.number}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-30px" }}
+              variants={stepVariants}
             >
               <TiltCard tiltStrength={12} glareEnabled={false} className="group cursor-default p-2">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-primary/10 mb-2 sm:mb-4 transition-colors duration-500 group-hover:text-primary/30">
+                <motion.div
+                  initial={{ opacity: 0.05 }}
+                  whileInView={{ opacity: [0.05, 0.3, 0.1] }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.2, delay: i * 0.2 }}
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-primary mb-2 sm:mb-4 transition-colors duration-500 group-hover:text-primary/30"
+                >
                   {step.number}
-                </div>
+                </motion.div>
 
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.2 + i * 0.1, type: "spring", stiffness: 300 }}
-                  className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-primary mb-2 sm:mb-4 group-hover:glow-soft transition-shadow duration-500"
-                />
+                  transition={{ delay: 0.3 + i * 0.2, type: "spring", stiffness: 300 }}
+                  className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 mb-2 sm:mb-4"
+                >
+                  <div className="absolute inset-0 rounded-full bg-primary" />
+                  <div className="absolute inset-0 rounded-full bg-primary/40 animate-pulse-ring" />
+                </motion.div>
 
                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold mb-1 sm:mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
                   {step.title}
