@@ -30,8 +30,8 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between px-4 sm:px-6">
         <button onClick={() => scrollTo("hero")} className="text-xl sm:text-2xl font-bold tracking-tight group">
-          <span className="text-gradient group-hover:opacity-80 transition-opacity">X</span>
-          <span className="text-foreground">YZ</span>
+          <span className="text-gradient group-hover:opacity-80 transition-opacity">Green</span>
+          <span className="text-foreground">Pulse</span>
         </button>
 
         <div className="hidden md:flex items-center gap-6 lg:gap-8">

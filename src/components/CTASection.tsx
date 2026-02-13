@@ -51,7 +51,7 @@ const CTASection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl mx-auto mb-6 sm:mb-10 px-2"
           >
-            Join hundreds of forward-thinking businesses already saving costs and reducing emissions with EcoFlux.
+            Join hundreds of forward-thinking businesses already saving costs and reducing emissions with GreenPulse.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

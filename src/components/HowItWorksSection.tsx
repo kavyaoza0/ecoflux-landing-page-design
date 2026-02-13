@@ -75,7 +75,7 @@ const HowItWorksSection = () => {
             The Process
           </motion.p>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
-            How EcoFlux <span className="text-shimmer">Works</span>
+            How GreenPulse <span className="text-shimmer">Works</span>
           </h2>
         </motion.div>
 

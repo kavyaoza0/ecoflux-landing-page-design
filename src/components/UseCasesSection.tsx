@@ -81,7 +81,7 @@ const UseCasesSection = () => {
             Built for <span className="text-shimmer">Business</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base md:text-lg px-2">
-            From offices to factories, EcoFlux scales to meet the unique energy needs of any industry.
+            From offices to factories, GreenPulse scales to meet the unique energy needs of any industry.
           </p>
         </motion.div>
 
