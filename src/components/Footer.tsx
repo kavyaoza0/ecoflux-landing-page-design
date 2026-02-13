@@ -20,8 +20,8 @@ const Footer = () => {
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold tracking-tight cursor-pointer"
         >
-          <span className="text-shimmer">X</span>
-          <span className="text-foreground">YZ</span>
+          <span className="text-shimmer">Green</span>
+          <span className="text-foreground">Pulse</span>
         </motion.div>
         <div className="flex gap-6 sm:gap-8 text-sm text-muted-foreground">
           {footerLinks.map((link, i) => (
@@ -46,7 +46,7 @@ const Footer = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-xs text-muted-foreground"
         >
-          © 2026 XYZ. All rights reserved.
+          © 2026 GreenPulse. All rights reserved.
         </motion.p>
       </div>
     </motion.footer>
