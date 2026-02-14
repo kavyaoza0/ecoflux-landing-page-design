@@ -1,4 +1,4 @@
-import solarVideo from "@/assets/solar-energy-video.mp4";
+import solarVideo from "@/assets/solar-panels-video.mp4";
 
 const SolarAnimationSection = () => {
   return (
